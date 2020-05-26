@@ -5,7 +5,7 @@ const queue = require('./queue');
 async function play(song, message) {
 
     if(queue.length != 0){
-        dispatcher = connection.play(await ytdl(song.url), { type: 'opus', fec: 'true', bitrate : '192', highWaterMark: 1024*1024*1024  });
+        dispatcher = connection.play(await ytdl(song.url), {type: 'opus'});
         dispatcher.on('finish', () => {
             queue.shift();
             play(queue[0]);
@@ -39,10 +39,18 @@ async function skip(message) {
 }
 
 async function getQueue() {
-    let queueString = 'Queue: ';
-    queue.forEach(function(item) {
-        queueString = + queueString + item.title + ', ';
-    })
+    queueString = 'Queue: ';
+ 
+    for (index = 0; index < queue.length; index++) { 
+        queueString = queueString + queue[index].title;
+        if(index == queue.length-1){
+            queueString = queueString + '.';
+        }else{
+            queueString = queueString + ', ';
+        }
+        console.log(queue);
+    } 
+
     return queueString;
 }
 
