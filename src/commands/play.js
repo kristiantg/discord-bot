@@ -56,13 +56,8 @@ async function getQueue() {
 
 async function getSong(message) {
     let searchTerm = message.toString().replace('!play ', '');
-
-    if (searchTerm.includes('https://www.youtube.com/watch?')){
-        return { title : searchTerm, url : searchTerm }
-    }else{
         const { title, link : url } = (await ytsr(searchTerm, { limit: 1 })).items[0];
-        return { title, url };
-    }
+        return {title, url };
 }
 
 module.exports = async (message, args) => {
